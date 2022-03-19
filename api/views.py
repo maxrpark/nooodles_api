@@ -1,10 +1,11 @@
 from django.http import JsonResponse
 from django.views import View
 from django.db.models import Q
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 from .models import Category, Brand, Tags, Ingredient, Noodle, NoodleImage
+# helper function
+from .utils import noodlesDetails
 
 
 class Home(View):
@@ -23,29 +24,10 @@ def page_not_found_view(request, exception):
 class NoodlesView(View):
     def get(self, request):
         all_noodles = Noodle.objects.all()
-        noodles_list = []
-        for noodle in all_noodles:
-            noodle_img = NoodleImage.objects.filter(noodle=noodle)
-            UUII = str(noodle.created_at)[12:26].replace(
-                ':', '').replace('.', '')
-            data = {
-                'id': UUII,
-                'name': noodle.name,
-                'description': noodle.summary,
-                'spicy_level': noodle.spicy_level.level,
-                'category': noodle.category.name,
-                'brand': noodle.brand.name,
-                'tags': [tag.name for tag in noodle.tags.all()],
-                'ingredients': [ingredient.name for ingredient in noodle.ingredients.all()],
-                'instructions': noodle.instructions,
-                'images': [image.image.url for image in noodle_img],
-                'amount_per_package': noodle.amount_per_package,
-                'price_per_package': noodle.price_per_package,
-                'price_per_unite': noodle.price_per_unite,
-                'slug': noodle.slug,
-            }
-            noodles_list.append(data)
-        return JsonResponse(noodles_list, safe=False)
+        if(all_noodles.count() > 0):
+            return noodlesDetails(all_noodles)
+        else:
+            return JsonResponse({'error': 'No found'}, safe=False)
 
 
 class NoodleView(View):
@@ -71,6 +53,7 @@ class NoodleView(View):
                     'price_per_package': noodle.price_per_package,
                     'price_per_unite': noodle.price_per_unite,
                     'slug': noodle.slug,
+                    'rating': noodle.rating,
                 }
                 return JsonResponse(data, safe=False)
         except:
@@ -100,30 +83,7 @@ class SingleCategory(View):
         all_noodles = Noodle.objects.all()
         single_category = all_noodles.filter(category__name=slug)
         if(single_category.count() > 0):
-            single_category_list = []
-            for noodle in single_category:
-                noodle_img = NoodleImage.objects.filter(noodle=noodle)
-                UUII = str(noodle.created_at)[12:26].replace(
-                    ':', '').replace('.', '')
-                data = {
-                    'id': UUII,
-                    'name': noodle.name,
-                    'description': noodle.summary,
-                    'spicy_level': noodle.spicy_level.level,
-                    'category': noodle.category.name,
-                    'brand': noodle.brand.name,
-                    'tags': [tag.name for tag in noodle.tags.all()],
-                    'ingredients': [ingredient.name for ingredient in noodle.ingredients.all()],
-                    'instructions': noodle.instructions,
-                    'images': [image.image.url for image in noodle_img],
-                    'amount_per_package': noodle.amount_per_package,
-                    'price_per_package': noodle.price_per_package,
-                    'price_per_unite': noodle.price_per_unite,
-                    'slug': noodle.slug,
-                }
-
-                single_category_list.append(data)
-            return JsonResponse(single_category_list, safe=False)
+            return noodlesDetails(single_category)
         else:
             return JsonResponse({'error': 'No such category'}, safe=False)
 
@@ -151,29 +111,7 @@ class SingleIngredient(View):
         all_noodles = Noodle.objects.all()
         single_ingredient = all_noodles.filter(ingredients__name=slug)
         if(single_ingredient.count() > 0):
-            single_ingredient_list = []
-            for noodle in single_ingredient:
-                noodle_img = NoodleImage.objects.filter(noodle=noodle)
-                UUII = str(noodle.created_at)[12:26].replace(
-                    ':', '').replace('.', '')
-                data = {
-                    'id': UUII,
-                    'name': noodle.name,
-                    'description': noodle.summary,
-                    'spicy_level': noodle.spicy_level.level,
-                    'category': noodle.category.name,
-                    'brand': noodle.brand.name,
-                    'tags': [tag.name for tag in noodle.tags.all()],
-                    'ingredients': [ingredient.name for ingredient in noodle.ingredients.all()],
-                    'instructions': noodle.instructions,
-                    'images': [image.image.url for image in noodle_img],
-                    'amount_per_package': noodle.amount_per_package,
-                    'price_per_package': noodle.price_per_package,
-                    'price_per_unite': noodle.price_per_unite,
-                    'slug': noodle.slug,
-                }
-                single_ingredient_list.append(data)
-            return JsonResponse(single_ingredient_list, safe=False)
+            return noodlesDetails(single_ingredient)
         else:
             return JsonResponse({'error': 'No such ingredient'}, safe=False)
 
@@ -200,30 +138,8 @@ class Singlebrand(View):
     def get(self, request, slug):
         all_noodles = Noodle.objects.all()
         single_brand = all_noodles.filter(brand__slug=slug)
-        single_brand_list = []
         if(single_brand.count() > 0):
-            for noodle in single_brand:
-                noodle_img = NoodleImage.objects.filter(noodle=noodle)
-                UUII = str(noodle.created_at)[12:26].replace(
-                    ':', '').replace('.', '')
-                data = {
-                    'id': UUII,
-                    'name': noodle.name,
-                    'description': noodle.summary,
-                    'spicy_level': noodle.spicy_level.level,
-                    'category': noodle.category.name,
-                    'brand': noodle.brand.name,
-                    'tags': [tag.name for tag in noodle.tags.all()],
-                    'ingredients': [ingredient.name for ingredient in noodle.ingredients.all()],
-                    'instructions': noodle.instructions,
-                    'images': [image.image.url for image in noodle_img],
-                    'amount_per_package': noodle.amount_per_package,
-                    'price_per_package': noodle.price_per_package,
-                    'price_per_unite': noodle.price_per_unite,
-                    'slug': noodle.slug,
-                }
-                single_brand_list.append(data)
-            return JsonResponse(single_brand_list, safe=False)
+            return noodlesDetails(single_brand)
         else:
             return JsonResponse({'error': 'No such brand'}, safe=False)
 
@@ -249,30 +165,8 @@ class SingleTag(View):
     def get(self, request, slug):
         all_noodles = Noodle.objects.all()
         single_tag = all_noodles.filter(tags__name=slug)
-        single_tag_list = []
         if(single_tag.count() > 0):
-            for noodle in single_tag:
-                noodle_img = NoodleImage.objects.filter(noodle=noodle)
-                UUII = str(noodle.created_at)[12:26].replace(
-                    ':', '').replace('.', '')
-                data = {
-                    'id': UUII,
-                    'name': noodle.name,
-                    'description': noodle.summary,
-                    'spicy_level': noodle.spicy_level.level,
-                    'category': noodle.category.name,
-                    'brand': noodle.brand.name,
-                    'tags': [tag.name for tag in noodle.tags.all()],
-                    'ingredients': [ingredient.name for ingredient in noodle.ingredients.all()],
-                    'instructions': noodle.instructions,
-                    'images': [image.image.url for image in noodle_img],
-                    'amount_per_package': noodle.amount_per_package,
-                    'price_per_package': noodle.price_per_package,
-                    'price_per_unite': noodle.price_per_unite,
-                    'slug': noodle.slug,
-                }
-                single_tag_list.append(data)
-            return JsonResponse(single_tag_list, safe=False)
+            return noodlesDetails(single_tag)
         else:
             return JsonResponse({'error': 'No such tag'}, safe=False)
 
@@ -284,29 +178,7 @@ class SearchNoodle(View):
         all_noodles = Noodle.objects.all()
         noodle = all_noodles.filter(
             Q(name__icontains=query))
-        noodle_list = []
         if(noodle.count() > 0):
-            for noodle in noodle:
-                noodle_img = NoodleImage.objects.filter(noodle=noodle)
-                UUII = str(noodle.created_at)[12:26].replace(
-                    ':', '').replace('.', '')
-                data = {
-                    'id': UUII,
-                    'name': noodle.name,
-                    'description': noodle.summary,
-                    'spicy_level': noodle.spicy_level.level,
-                    'category': noodle.category.name,
-                    'brand': noodle.brand.name,
-                    'tags': [tag.name for tag in noodle.tags.all()],
-                    'ingredients': [ingredient.name for ingredient in noodle.ingredients.all()],
-                    'instructions': noodle.instructions,
-                    'images': [image.image.url for image in noodle_img],
-                    'amount_per_package': noodle.amount_per_package,
-                    'price_per_package': noodle.price_per_package,
-                    'price_per_unite': noodle.price_per_unite,
-                    'slug': noodle.slug,
-                }
-                noodle_list.append(data)
-            return JsonResponse(noodle_list, safe=False)
+            return noodlesDetails(noodle)
         else:
             return JsonResponse({'error': 'No noodle found'}, safe=False)

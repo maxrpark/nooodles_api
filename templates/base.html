@@ -28,6 +28,7 @@
         justify-content: center;
         align-items: center;
       }
+
       h1,
       h2,
       h3,
@@ -36,12 +37,19 @@
         margin: 1rem;
       }
       p {
-        font-size: 1.25rem;
+        font-size: 1rem;
         margin: 1rem auto;
       }
       a {
         color: #5465ff;
         text-decoration: none;
+        font-size: 14px;
+      }
+      @media screen and (min-width: 768px) {
+        a,
+        p {
+          font-size: 1.25rem;
+        }
       }
       a:hover {
         color: #582c4d;
@@ -90,11 +98,12 @@
       }
       .underline {
         width: 100%;
-        max-width: 500px;
+        max-width: 250px;
         margin: 1rem auto;
         background-color: rgba(255, 221, 0);
         height: 2px;
       }
+
       /* Footer */
       footer {
         height: 100px;
@@ -112,7 +121,7 @@
   <body>
     <nav>
       <div class="navbar">
-        <a href="/"><h3>Vegetarian Blog</h3></a>
+        <a href="/"><h3>Noodle Api</h3></a>
         <div class="nav-links">
           <a href="/">WebSite Example</a>
         </div>
