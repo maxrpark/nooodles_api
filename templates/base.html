@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noodle Api</title>
+    {% block styles %}{% endblock styles %}
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: #f5f5f5;
+      }
+      .error-page {
+        min-height: 70vh;
+      }
+      .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        text-align: center;
+        margin: 1rem;
+      }
+      p {
+        font-size: 1.25rem;
+        margin: 1rem auto;
+      }
+      a {
+        color: #5465ff;
+        text-decoration: none;
+      }
+      a:hover {
+        color: #582c4d;
+        opacity: 0.8;
+      }
+
+      nav {
+        background-color: rgba(255, 221, 0);
+      }
+      .navbar {
+        max-width: 960px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 auto;
+        height: 75px;
+        padding: 1rem;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+      }
+      .nav-links a:hover {
+        color: black;
+      }
+      .buy-me-a-coffe {
+        display: block;
+        height: 100%;
+        width: 170px;
+        margin: 0 auto;
+        border-radius: 40px;
+        padding: 1rem;
+        text-align: center;
+        transition: all 0.2s ease;
+        background-color: rgba(255, 221, 0);
+        color: #000;
+        transition: all 0.3s ease;
+        box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.2);
+      }
+      .buy-me-a-coffe:hover {
+        opacity: 1;
+        transform: translateY(-4px);
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+      }
+      .underline {
+        width: 100%;
+        max-width: 500px;
+        margin: 1rem auto;
+        background-color: rgba(255, 221, 0);
+        height: 2px;
+      }
+      /* Footer */
+      footer {
+        height: 100px;
+        background-color: rgba(255, 221, 0);
+        display: grid;
+        place-content: center;
+        margin-top: 2rem;
+        text-align: center;
+      }
+      footer p {
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="navbar">
+        <a href="/"><h3>Vegetarian Blog</h3></a>
+        <div class="nav-links">
+          <a href="/">WebSite Example</a>
+        </div>
+      </div>
+    </nav>
+    {% block body %}{% endblock body %}
+    <footer>
+      <p>
+        Made with Django, by
+        <a target="_blank" href="https://twitter.com/MaxCodeJourney"
+          >Maxi Ruti</a
+        >
+      </p>
+      <p>
+        Visit my other projects
+        <a target="_blank" href="https://my-portfolio-blog-website.netlify.app/"
+          >My Portfolio Website</a
+        >
+      </p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+<!---->
+{% block body %}
+<!---->
+<div class="container">
+  <div class="title">
+    <h1>Noodle Api</h1>
+    <div class="underline"></div>
+    <h4>Welcome to the Noodle api</h4>
+    <p style="text-align: center">
+      This Api is free to use but hosted in a paid provider, <br />
+      if you enjoy consider a small donation
+    </p>
+    <a class="buy-me-a-coffe" href="https://www.buymeacoffee.com/maxcoding"
+      >Buy me a Pizza</a
+    >
+  </div>
+  <div class="section-center">
+    <h2>Endpoints</h2>
+    <div class="underline"></div>
+    <!-- all noodles-->
+    <div>
+      <h3>Noodles</h3>
+      <p>List of all noodles</p>
+      <a href="https://noodleapi.herokuapp.com/api/v1/noodles/" target="_blank">
+        https://noodleapi.herokuapp.com/api/v1/noodles/</a
+      >
+      <p>Result specific noodle by slug</p>
+      <a href="https://noodleapi.herokuapp.com/api/v1/noodles/" target="_blank">
+        https://noodleapi.herokuapp.com/api/v1/noodles/jeong-myeon</a
+      >
+    </div>
+    <!-- -->
+    <!-- List of categories-->
+    <div>
+      <h3>Category</h3>
+      <p>List of categories</p>
+      <a href="https://noodleapi.herokuapp.com/api/v1/noodles/" target="_blank">
+        https://noodleapi.herokuapp.com/api/v1/categories/list</a
+      >
+      <p>Result specific category</p>
+      <a href="https://noodleapi.herokuapp.com/api/v1/noodles/" target="_blank">
+        https://noodleapi.herokuapp.com/api/v1/categories/vegan</a
+      >
+    </div>
+    <!-- -->
+    <!-- List of Ingredients-->
+    <div>
+      <h3>Ingredients</h3>
+      <p>List of Ingredients</p>
+      <a href="https://noodleapi.herokuapp.com/api/v1/noodles/" target="_blank">
+        https://noodleapi.herokuapp.com/api/v1/ingredients/list</a
+      >
+      <p>Result specific Ingredients</p>
+      <a href="https://noodleapi.herokuapp.com/api/v1/noodles/" target="_blank">
+        https://noodleapi.herokuapp.com/api/v1/ingredients/tomato</a
+      >
+    </div>
+    <!-- -->
+    <!-- List of brand-->
+    <div>
+      <h3>Brand</h3>
+      <p>List of brands</p>
+      <a href="https://noodleapi.herokuapp.com/api/v1/noodles/" target="_blank">
+        https://noodleapi.herokuapp.com/api/v1/brand/list</a
+      >
+      <p>Result specific brand</p>
+      <a href="https://noodleapi.herokuapp.com/api/v1/noodles/" target="_blank">
+        https://noodleapi.herokuapp.com/api/v1/brand/pulmoone</a
+      >
+    </div>
+    <!-- -->
+    <!-- List of tags-->
+    <div>
+      <h3>Tags</h3>
+      <p>List of tags</p>
+      <a href="https://noodleapi.herokuapp.com/api/v1/noodles/" target="_blank">
+        https://noodleapi.herokuapp.com/api/v1/tags/list</a
+      >
+      <p>Result specific brand</p>
+      <a href="https://noodleapi.herokuapp.com/api/v1/noodles/" target="_blank">
+        https://noodleapi.herokuapp.com/api/v1/tags/tomato</a
+      >
+    </div>
+    <!-- -->
+    <!-- Search by name-->
+    <div>
+      <h3>Search by Name</h3>
+      <p>Get resul if noodle name contain query</p>
+      <a
+        href="https://noodleapi.herokuapp.com/api/v1/search/?query=Jeong-myeon"
+        target="_blank"
+      >
+        https://noodleapi.herokuapp.com/api/v1/search/?query=Jeong-myeon</a
+      >
+    </div>
+    <!-- -->
+  </div>
+</div>
+<!---->
+{% endblock body%}
