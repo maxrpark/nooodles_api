@@ -1,5 +1,5 @@
 from pathlib import Path
-
+import django_on_heroku
 import environ
 import os
 
@@ -125,3 +125,5 @@ CLOUDINARY_STORAGE = {
 
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+django_on_heroku.settings(locals())
