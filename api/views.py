@@ -1,10 +1,10 @@
 from django.http import JsonResponse
 from django.views import View
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render
 
 from .models import Category, Brand, Tags, Ingredient, Noodle, NoodleImage
-
-from django.shortcuts import render
 
 
 class Home(View):
@@ -50,27 +50,31 @@ class NoodlesView(View):
 
 class NoodleView(View):
     def get(self, request, slug):
-        noodle = Noodle.objects.get(slug=slug)
-        noodle_img = NoodleImage.objects.filter(noodle=noodle)
-        UUII = str(noodle.created_at)[12:26].replace(
-            ':', '').replace('.', '')
-        data = {
-            'id': UUII,
-            'name': noodle.name,
-            'description': noodle.summary,
-            'spicy_level': noodle.spicy_level.level,
-            'category': noodle.category.name,
-            'brand': noodle.brand.name,
-            'tags': [tag.name for tag in noodle.tags.all()],
-            'ingredients': [ingredient.name for ingredient in noodle.ingredients.all()],
-            'instructions': noodle.instructions,
-            'images': [image.image.url for image in noodle_img],
-            'amount_per_package': noodle.amount_per_package,
-            'price_per_package': noodle.price_per_package,
-            'price_per_unite': noodle.price_per_unite,
-            'slug': noodle.slug,
-        }
-        return JsonResponse(data, safe=False)
+        try:
+            noodle = get_object_or_404(Noodle, slug=slug)
+            if(noodle.count() > 0):
+                noodle_img = NoodleImage.objects.filter(noodle=noodle)
+                UUII = str(noodle.created_at)[12:26].replace(
+                    ':', '').replace('.', '')
+                data = {
+                    'id': UUII,
+                    'name': noodle.name,
+                    'description': noodle.summary,
+                    'spicy_level': noodle.spicy_level.level,
+                    'category': noodle.category.name,
+                    'brand': noodle.brand.name,
+                    'tags': [tag.name for tag in noodle.tags.all()],
+                    'ingredients': [ingredient.name for ingredient in noodle.ingredients.all()],
+                    'instructions': noodle.instructions,
+                    'images': [image.image.url for image in noodle_img],
+                    'amount_per_package': noodle.amount_per_package,
+                    'price_per_package': noodle.price_per_package,
+                    'price_per_unite': noodle.price_per_unite,
+                    'slug': noodle.slug,
+                }
+                return JsonResponse(data, safe=False)
+        except:
+            return JsonResponse({'message': 'Noodle not found'}, status=404)
 # CATEGORIES
 # List of categories
 
