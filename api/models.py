@@ -58,6 +58,7 @@ class Noodle(models.Model):
     price_per_unite = models.DecimalField(max_digits=6, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(default='', null=False, unique=True)
+    rating = models.IntegerField(default=0)
 
 
 def __str__(self):
