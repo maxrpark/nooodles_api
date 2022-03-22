@@ -4,22 +4,25 @@ from .views import NoodlesView, CategoriesList, IngredientsList, TagsList, Brand
 
 urlpatterns = [
     path('', Home.as_view(), name='home'),
-    # noodles  list
+    # All Noodles
     path('noodles/', NoodlesView.as_view(), name='noodles'),
-    # single noodle
+    # Single noodle
     path('noodles/<str:slug>', NoodleView.as_view(), name='noodle'),
-    # list
-    path('categories/list', CategoriesList.as_view(), name='gategories'),
-    path('ingredients/list', IngredientsList.as_view(), name='ingredients'),
-    path('brand/list', BrandsList.as_view(), name='brands-list'),
-    path('tags/list', TagsList.as_view(), name='tags-list'),
-    # single details
-    path('categories/<str:slug>', SingleCategory.as_view(), name='single-category'),
-    path('brand/<str:slug>', Singlebrand.as_view(), name='single-brand'),
-    path('tags/<str:slug>', SingleTag.as_view(), name='single-tag'),
-    path('ingredients/<str:slug>', SingleIngredient.as_view(),
+    # LIST RESULTS
+    path('categories/list', CategoriesList.as_view(),
+         name='gategories'),  # Categories
+    path('ingredients/list', IngredientsList.as_view(),
+         name='ingredients'),  # Ingredients
+    path('brand/list', BrandsList.as_view(), name='brands-list'),  # Brands
+    path('tags/list', TagsList.as_view(), name='tags-list'),  # Tags
+    # SINGLE RESULTS
+    path('categories/<str:slug>', SingleCategory.as_view(),
+         name='single-category'),  # Category
+    path('brand/<str:slug>', Singlebrand.as_view(), name='single-brand'),  # Brand
+    path('ingredients/<str:slug>', SingleIngredient.as_view(),  # Ingredient
          name='single-ingredient'),
-    #  serch
+    path('tags/<str:slug>', SingleTag.as_view(), name='single-tag'),  # Tag
+    #  SEARCH
     path('search/', SearchNoodle.as_view(),
          name='search'),
 ]

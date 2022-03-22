@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Category(models.Model):
@@ -54,15 +55,23 @@ class Noodle(models.Model):
     ingredients = models.ManyToManyField(Ingredient)
     spicy_level = models.ForeignKey(SpicyLevel, on_delete=models.CASCADE)
     amount_per_package = models.IntegerField()
-    price_per_package = models.DecimalField(max_digits=6, decimal_places=2)
-    price_per_unite = models.DecimalField(max_digits=6, decimal_places=2)
+    price_per_package = models.DecimalField(max_digits=6, decimal_places=2,         validators=[
+        MinValueValidator(0),
+        MaxValueValidator(100)
+    ])
+    price_per_unite = models.DecimalField(max_digits=6, decimal_places=2, validators=[
+        MinValueValidator(0),
+        MaxValueValidator(100)
+    ])
     created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(default='', null=False, unique=True)
-    rating = models.IntegerField(default=0)
+    rating = models.IntegerField(default=0, validators=[
+        MinValueValidator(0),
+        MaxValueValidator(5)
+    ])
 
-
-def __str__(self):
-    return self.name
+    def __str__(self):
+        return self.name
 
 
 class NoodleImage(models.Model):

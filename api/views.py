@@ -3,9 +3,9 @@ from django.views import View
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 
-from .models import Category, Brand, Tags, Ingredient, Noodle, NoodleImage
+from .models import Category, Brand, Tags, Ingredient, Noodle
 # helper function
-from .utils import noodlesDetails
+from .utils import noodleList, noodleDescription
 
 
 class Home(View):
@@ -16,7 +16,6 @@ class Home(View):
 def page_not_found_view(request, exception):
     return render(request, '404.html', status=404)
 
-# List of things
 
 # NOODLES
 
@@ -25,7 +24,7 @@ class NoodlesView(View):
     def get(self, request):
         all_noodles = Noodle.objects.all()
         if(all_noodles.count() > 0):
-            return noodlesDetails(all_noodles)
+            return noodleList(all_noodles)
         else:
             return JsonResponse({'error': 'No found'}, safe=False)
 
@@ -33,29 +32,9 @@ class NoodlesView(View):
 class NoodleView(View):
     def get(self, request, slug):
         try:
-            noodle = get_object_or_404(Noodle, slug=slug)
-            if(noodle.count() > 0):
-                noodle_img = NoodleImage.objects.filter(noodle=noodle)
-                UUII = str(noodle.created_at)[12:26].replace(
-                    ':', '').replace('.', '')
-                data = {
-                    'id': UUII,
-                    'name': noodle.name,
-                    'description': noodle.summary,
-                    'spicy_level': noodle.spicy_level.level,
-                    'category': noodle.category.name,
-                    'brand': noodle.brand.name,
-                    'tags': [tag.name for tag in noodle.tags.all()],
-                    'ingredients': [ingredient.name for ingredient in noodle.ingredients.all()],
-                    'instructions': noodle.instructions,
-                    'images': [image.image.url for image in noodle_img],
-                    'amount_per_package': noodle.amount_per_package,
-                    'price_per_package': noodle.price_per_package,
-                    'price_per_unite': noodle.price_per_unite,
-                    'slug': noodle.slug,
-                    'rating': noodle.rating,
-                }
-                return JsonResponse(data, safe=False)
+            selectedNoodle = get_object_or_404(Noodle, slug=slug)
+            noodle = noodleDescription(selectedNoodle)
+            return JsonResponse(noodle, safe=False)
         except:
             return JsonResponse({'message': 'Noodle not found'}, status=404)
 # CATEGORIES
@@ -83,7 +62,7 @@ class SingleCategory(View):
         all_noodles = Noodle.objects.all()
         single_category = all_noodles.filter(category__name=slug)
         if(single_category.count() > 0):
-            return noodlesDetails(single_category)
+            return noodleList(single_category)
         else:
             return JsonResponse({'error': 'No such category'}, safe=False)
 
@@ -111,7 +90,7 @@ class SingleIngredient(View):
         all_noodles = Noodle.objects.all()
         single_ingredient = all_noodles.filter(ingredients__name=slug)
         if(single_ingredient.count() > 0):
-            return noodlesDetails(single_ingredient)
+            return noodleList(single_ingredient)
         else:
             return JsonResponse({'error': 'No such ingredient'}, safe=False)
 
@@ -127,6 +106,7 @@ class BrandsList(View):
             data = {
                 'id': brand.id,
                 'name': brand.name,
+                'slug': brand.slug,
             }
             brand_list.append(data)
         return JsonResponse(brand_list, safe=False)
@@ -139,7 +119,7 @@ class Singlebrand(View):
         all_noodles = Noodle.objects.all()
         single_brand = all_noodles.filter(brand__slug=slug)
         if(single_brand.count() > 0):
-            return noodlesDetails(single_brand)
+            return noodleList(single_brand)
         else:
             return JsonResponse({'error': 'No such brand'}, safe=False)
 
@@ -166,7 +146,7 @@ class SingleTag(View):
         all_noodles = Noodle.objects.all()
         single_tag = all_noodles.filter(tags__name=slug)
         if(single_tag.count() > 0):
-            return noodlesDetails(single_tag)
+            return noodleList(single_tag)
         else:
             return JsonResponse({'error': 'No such tag'}, safe=False)
 
@@ -179,6 +159,6 @@ class SearchNoodle(View):
         noodle = all_noodles.filter(
             Q(name__icontains=query))
         if(noodle.count() > 0):
-            return noodlesDetails(noodle)
+            return noodleList(noodle)
         else:
             return JsonResponse({'error': 'No noodle found'}, safe=False)
