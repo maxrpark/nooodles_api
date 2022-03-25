@@ -49,7 +49,8 @@ class CategoriesList(View):
             data = {
                 'id': category.id,
                 'name': category.name,
-                'slug': category.slug,
+                # 'slug': category.slug,
+                'description': category.description,
             }
             categories_list.append(data)
         return JsonResponse(categories_list, safe=False)
