@@ -1,4 +1,5 @@
 from pathlib import Path
+from datetime import timedelta  # auth settings
 import django_on_heroku
 import environ
 import os
@@ -31,6 +32,10 @@ INSTALLED_APPS = [
     'api',
     'cloudinary',
     'corsheaders',
+
+    'rest_framework',  # auth settings
+    'users',  # auth settings
+    'rest_framework_simplejwt.token_blacklist',  # auth settings
 ]
 
 MIDDLEWARE = [
@@ -42,6 +47,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'noodles_api.urls'
@@ -125,5 +131,40 @@ CLOUDINARY_STORAGE = {
 
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+# auth
+REST_FRAMEWORK = {  # auth settings
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+
+CORS_ALLOWED_ORIGINS = [  # auth settings
+    "http://localhost:3000"
+]
+
+# Custom user model # auth settings
+AUTH_USER_MODEL = 'users.NewUser'
+
+SIMPLE_JWT = {  # auth settings
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+}
+
 
 django_on_heroku.settings(locals())
