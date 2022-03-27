@@ -37,3 +37,10 @@ class CustomUserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+
+class UserDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        exclude = ('password', 'is_active', 'is_staff',
+                   'is_superuser', 'date_joined')
