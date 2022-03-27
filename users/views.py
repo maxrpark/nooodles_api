@@ -23,7 +23,7 @@ class CustomUserCreate(APIView):
 
         if all_users.filter(email=request.data['email']).exists():
             return Response(
-                {"error": "email_error",
+                {"error": "email_exist",
                  "messege": "This email address is already used by another account."}, status=status.HTTP_400_BAD_REQUEST)
 
         if(request.data['email'].find('@') == -1 or request.data['email'].find('.') == -1):
@@ -33,21 +33,21 @@ class CustomUserCreate(APIView):
                 status=status.HTTP_400_BAD_REQUEST)
 
         if len(request.data['user_name']):
-            if len(request.data['user_name']) < 3:
+            if len(request.data['user_name_length']) < 3:
                 return Response(
-                    {"error": "user_name",
+                    {"error": "user_name_length",
                      "messege": "User name must be at least 3 characters long."},
                     status=status.HTTP_400_BAD_REQUEST)
 
         if all_users.filter(user_name=request.data['user_name']).exists():
             return Response(
-                {"error": "user_name_error",
+                {"error": "user_name_exist",
                  "messege": "User name already exists, please choose another one."}, status=status.HTTP_400_BAD_REQUEST)
 
         if len(request.data['password']):
             if len(request.data['password']) < 8:
                 return Response(
-                    {"error": "password_error",
+                    {"error": "password_length",
                      "messege": "Password must be at least 8 characters long."},
                     status=status.HTTP_400_BAD_REQUEST)
         else:
