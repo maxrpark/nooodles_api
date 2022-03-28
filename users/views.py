@@ -32,24 +32,23 @@ class CustomUserCreate(APIView):
                  "message": "Please enter a valid email address"},
                 status=status.HTTP_400_BAD_REQUEST)
 
-        if len(request.data['user_name']):
-            if len(request.data['user_name_length']) < 3:
-                return Response(
-                    {"error": "user_name_length",
-                     "messege": "User name must be at least 3 characters long."},
-                    status=status.HTTP_400_BAD_REQUEST)
+        if len(request.data['user_name']) < 3:
+            return Response(
+                {"error": "user_name_length",
+                 "messege": "User name must be at least 3 characters long."},
+                status=status.HTTP_400_BAD_REQUEST)
 
         if all_users.filter(user_name=request.data['user_name']).exists():
             return Response(
                 {"error": "user_name_exist",
                  "messege": "User name already exists, please choose another one."}, status=status.HTTP_400_BAD_REQUEST)
 
-        if len(request.data['password']):
-            if len(request.data['password']) < 8:
-                return Response(
-                    {"error": "password_length",
-                     "messege": "Password must be at least 8 characters long."},
-                    status=status.HTTP_400_BAD_REQUEST)
+        if len(request.data['password']) < 8:
+            return Response(
+                {"error": "password_length",
+                 "messege": "Password must be at least 8 characters long."},
+                status=status.HTTP_400_BAD_REQUEST)
+
         else:
             serializer = CustomUserSerializer(data=request.data)
             if serializer.is_valid():
