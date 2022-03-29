@@ -1,6 +1,12 @@
-from xml.etree.ElementInclude import include
 from rest_framework import serializers
 from .models import NewUser as Users
+from api.models import Noodle
+
+
+class NoodleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Noodle
+        fields = ('id', "name")
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -23,7 +29,10 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 class UserDetailsSerializer(serializers.ModelSerializer):
+    favorites = NoodleSerializer(many=True, read_only=True)
+
     class Meta:
         model = Users
-        exclude = ('password', 'is_active', 'is_staff',
-                   'is_superuser', 'date_joined')
+        fields = ('id', 'email', 'user_name', 'favorites')
+        # exclude = ('password', 'is_active', 'is_staff',
+        #            'is_superuser', )

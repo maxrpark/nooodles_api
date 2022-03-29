@@ -75,6 +75,7 @@ class Noodle(models.Model):
 
 
 class NoodleImage(models.Model):
-    noodle = models.ForeignKey(Noodle, on_delete=models.CASCADE)
+    noodle = models.ForeignKey(
+        Noodle, related_name="imgNoodle", on_delete=models.CASCADE)
     image = models.ImageField(upload_to='noodles_api/')
     created_at = models.DateTimeField(auto_now_add=True)

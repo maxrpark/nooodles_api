@@ -1,5 +1,6 @@
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status
+from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import CustomUserSerializer, UserDetailsSerializer
@@ -7,6 +8,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny
 
 from .models import NewUser as Users
+
+from api.utils import noodleList
 
 
 class CustomUserCreate(APIView):
@@ -73,7 +76,7 @@ class BlacklistTokenUpdateView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class UserInformation(APIView):
+class UserInformationView(APIView):
     permission_classes = [AllowAny]
     authentication_classes = ()
 
@@ -84,3 +87,19 @@ class UserInformation(APIView):
             return Response(serializer.data)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserFavoriesNoodlesView(APIView):
+    permission_classes = [AllowAny]
+    authentication_classes = ()
+
+    def get(self, request, pk):
+        try:
+            user = Users.objects.get(pk=pk)
+            user_favories = user.favorites.all()
+            if(user_favories.count() > 0):
+                return noodleList(user_favories)
+            else:
+                return JsonResponse({'error': 'No favorites on your list'}, safe=False)
+        except Exception as e:
+            return JsonResponse({'error': 'No User'}, status=status.HTTP_400_BAD_REQUEST)
