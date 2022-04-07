@@ -152,7 +152,7 @@ REST_FRAMEWORK = {  # auth settings
 #     "http://localhost:3000"
 # ]
 
-CORS_ALLOWED_ORIGINS = ["*"]
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Custom user model # auth settings
 AUTH_USER_MODEL = 'users.NewUser'
