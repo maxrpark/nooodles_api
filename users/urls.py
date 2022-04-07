@@ -1,9 +1,20 @@
-from django.urls import path
+from django.urls import path, include
+
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
 from .views import CustomUserCreate, BlacklistTokenUpdateView, UserInformationView, UserFavoriesNoodlesView, addToFavorites
 
 app_name = 'users'
 
 urlpatterns = [
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
     path('user-details/<int:pk>', UserInformationView.as_view(), name='user-details'),
     path('user-favorites/<str:user_name>/<str:slug>/',
          addToFavorites.as_view(), name='user-favorites'),

@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 
 from .models import Category, Brand, Tags, Ingredient, Noodle
-# helper function
+# helper functions
 from .utils import noodleList, noodleDescription
 
 
