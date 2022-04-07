@@ -6,7 +6,7 @@ from api.models import Noodle
 class NoodleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Noodle
-        fields = ('id', "name")
+        fields = ('id', "name", 'slug')
 
 
 class CustomUserSerializer(serializers.ModelSerializer):

@@ -13,12 +13,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
-
-CORS_ORIGIN_ALLOW_ALL = True
-
+CSRF_COOKIE_SECURE = True
+# CSRF_COOKIE_HTTPONLY = False
+# CORS_ORIGIN_ALLOW_ALL = True
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1:8000/']
 
 # Application definition
 
@@ -169,3 +170,10 @@ SIMPLE_JWT = {  # auth settings
 
 
 django_on_heroku.settings(locals())
+
+
+CSRF_COOKIE_NAME = "csrftoken"
+CSRF_COOKIE_HTTPONLY = False
+
+CORS_EXPOSE_HEADERS = ["Content-Type", "X-CSRFToken"]
+CORS_ALLOW_CREDENTIALS = True

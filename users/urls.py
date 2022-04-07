@@ -1,10 +1,12 @@
 from django.urls import path
-from .views import CustomUserCreate, BlacklistTokenUpdateView, UserInformationView, UserFavoriesNoodlesView
+from .views import CustomUserCreate, BlacklistTokenUpdateView, UserInformationView, UserFavoriesNoodlesView, addToFavorites
 
 app_name = 'users'
 
 urlpatterns = [
     path('user-details/<int:pk>', UserInformationView.as_view(), name='user-details'),
+    path('user-favorites/<str:user_name>/<str:slug>/',
+         addToFavorites.as_view(), name='user-favorites'),
     path('user-favories-noodles/<int:pk>',
          UserFavoriesNoodlesView.as_view(), name='user-favories-noodles'),
 

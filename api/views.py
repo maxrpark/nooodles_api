@@ -156,10 +156,13 @@ class SingleTag(View):
 class SearchNoodle(View):
     def get(self, request):
         query = request.GET.get('query', '')
+        print(query)
         all_noodles = Noodle.objects.all()
         noodle = all_noodles.filter(
             Q(name__icontains=query))
         if(noodle.count() > 0):
+            print(query, 'found')
+            print(noodle)
             return noodleList(noodle)
         else:
-            return JsonResponse({'error': 'No noodle found'}, safe=False)
+            return JsonResponse({'response': 'No noodle found'}, safe=False)
