@@ -15,7 +15,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-CORS_ALLOWED_ORIGINS = ["*"]
+
 ALLOWED_HOSTS = ['*']
 CSRF_COOKIE_SECURE = True
 
@@ -148,9 +148,11 @@ REST_FRAMEWORK = {  # auth settings
 }
 
 
-CORS_ALLOWED_ORIGINS = [  # auth settings
-    "http://localhost:3000"
-]
+# CORS_ALLOWED_ORIGINS = [  # auth settings
+#     "http://localhost:3000"
+# ]
+
+CORS_ALLOWED_ORIGINS = ["*"]
 
 # Custom user model # auth settings
 AUTH_USER_MODEL = 'users.NewUser'
