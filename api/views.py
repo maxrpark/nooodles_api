@@ -49,8 +49,9 @@ class CategoriesList(View):
             data = {
                 'id': category.id,
                 'name': category.name,
-                # 'slug': category.slug,
+                'image': category.image.url,
                 'description': category.description,
+                'slug': category.slug,
             }
             categories_list.append(data)
         return JsonResponse(categories_list, safe=False)
@@ -108,6 +109,7 @@ class BrandsList(View):
                 'id': brand.id,
                 'name': brand.name,
                 'slug': brand.slug,
+                'description': brand.description,
             }
             brand_list.append(data)
         return JsonResponse(brand_list, safe=False)

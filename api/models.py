@@ -6,6 +6,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='noodles_api/categories', null=True)
     slug = models.SlugField(default='', null=False, unique=True)
 
     def __str__(self):
@@ -15,6 +16,8 @@ class Category(models.Model):
 class Brand(models.Model):
     name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='noodles_api/brands', null=True)
+    description = models.TextField(blank=True)
     slug = models.SlugField(default='', null=False, unique=True)
 
     def __str__(self):
@@ -31,6 +34,7 @@ class SpicyLevel(models.Model):
 
 class Tags (models.Model):
     name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
