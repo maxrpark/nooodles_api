@@ -109,6 +109,7 @@ class BrandsList(View):
                 'id': brand.id,
                 'name': brand.name,
                 'slug': brand.slug,
+                'image': brand.image.url,
                 'description': brand.description,
             }
             brand_list.append(data)
