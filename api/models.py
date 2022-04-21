@@ -26,6 +26,9 @@ class Brand(models.Model):
 
 class SpicyLevel(models.Model):
     level = models.CharField(max_length=100)
+    level_number = models.IntegerField(validators=[
+        MinValueValidator(0),
+        MaxValueValidator(5)], default=1)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -12,6 +12,7 @@ def noodleDescription(noodle):
         'name': noodle.name,
         'description': noodle.summary,
         'spicy_level': noodle.spicy_level.level,
+        'spicy_level_number': noodle.spicy_level.level_number,
         'category': noodle.category.name,
         'brand': {
             "name": noodle.brand.name,
