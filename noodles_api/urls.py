@@ -10,7 +10,7 @@ from rest_framework_simplejwt.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Home.as_view(), name='home'),  # Homepage
-    path('api/v1/', include('api.urls')),  # api/v1/noodles/
+    path('', Home.as_view(), name='home'),  # Homepage
     path('api/users/', include('users.urls', namespace='users')),  # users.urls.py
 
     # path('api/v1/', include('djoser.urls')),

@@ -1,4 +1,6 @@
+from itertools import product
 from django.db import models
+from django.forms import JSONField
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
@@ -59,3 +61,32 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.user_name
+
+# test
+
+
+class Order(models.Model):
+    user = models.ForeignKey(
+        NewUser, related_name='orders', on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100, blank=True)
+    last_name = models.CharField(max_length=100, blank=True)
+    email = models.CharField(max_length=100, blank=True)
+    address = models.CharField(max_length=100, blank=True)
+    zipcode = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=100, blank=True)
+    phone = models.CharField(max_length=100, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    total_amount_without_discount = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
+    paid_amount = models.DecimalField(
+        max_digits=8, decimal_places=2, blank=True, null=True)
+    discount = models.DecimalField(
+        max_digits=8, decimal_places=2, blank=True, null=True)
+    stripe_token = models.CharField(max_length=100)
+    cart_items = models.JSONField(default=dict)
+
+    class Meta:
+        ordering = ['-created_at', ]
+
+    def __str__(self):
+        return self.user.user_name
