@@ -215,3 +215,21 @@ class GetUserOrders(APIView):
             return JsonResponse(data, safe=False)
         except Exception as e:
             return JsonResponse({'error': 'Bad request'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserSingleOrder(APIView):
+    def get(self, request, user_name, order_id):
+        try:
+            user = Users.objects.get(user_name=user_name)
+            order = Order.objects.get(id=order_id, user=user)
+            order_details = {
+                'id': order.id,
+                'created_at': order.created_at,
+                'total_amount_without_discount': order.total_amount_without_discount,
+                'discount': order.discount,
+                'paid_amount': order.paid_amount,
+                'cart_items': order.cart_items,
+            }
+            return JsonResponse(order_details, safe=False)
+        except Exception as e:
+            return JsonResponse({'error': 'Bad request'}, status=status.HTTP_400_BAD_REQUEST)

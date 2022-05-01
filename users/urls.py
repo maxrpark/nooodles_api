@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from .views import CustomUserCreate, BlacklistTokenUpdateView, UserInformationView, UserFavoriesNoodlesView, addToFavorites, create_payment, OrderView, GetUserOrders
+from .views import CustomUserCreate, BlacklistTokenUpdateView, UserInformationView, UserFavoriesNoodlesView, addToFavorites, create_payment, OrderView, GetUserOrders, UserSingleOrder
 
 app_name = 'users'
 
@@ -15,6 +15,7 @@ urlpatterns = [
     path('create-payment-intent', create_payment.as_view()),
     path('create-order/<str:user_name>', OrderView.as_view()),
     path('user-orders/<str:user_name>', GetUserOrders.as_view()),
+    path('user-order/<str:user_name>/<int:order_id>', UserSingleOrder.as_view()),
 
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
