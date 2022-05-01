@@ -213,7 +213,5 @@ class GetUserOrders(APIView):
                 data.append(order_details)
 
             return JsonResponse(data, safe=False)
-            # serializer = OrderSerializer(orders, many=True)
-            # return Response(serializer.data)
         except Exception as e:
-            return JsonResponse(data, safe=False)
+            return JsonResponse({'error': 'Bad request'}, status=status.HTTP_400_BAD_REQUEST)

@@ -36,29 +36,3 @@ class UserDetailsSerializer(serializers.ModelSerializer):
         fields = ('id', 'email', 'user_name', 'favorites')
         # exclude = ('password', 'is_active', 'is_staff',
         #            'is_superuser', )
-
-
-class OrderSerializer(serializers.ModelSerializer):
-    items = NoodleSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Order
-        fields = '__all__'
-        # fields = ('id', 'first_name', 'last_name',
-        #           'paid_amount', 'items')
-
-        # "id": 3,
-        # "first_name": "",
-        # "last_name": "",
-        # "email": "",
-        # "address": "",
-        # "zipcode": "",
-        # "place": "",
-        # "phone": "",
-        # "created_at": "2022-04-30T14:02:03.833333Z",
-        # "paid_amount": null,
-        # "discount": null,
-        # "stripe_token": "",
-        # "user": 13,
-        # "items": [
-        #     1
