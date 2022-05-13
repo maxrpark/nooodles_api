@@ -16,7 +16,6 @@ from .models import NewUser as Users, Order
 from api.models import Noodle
 from api.utils import noodleList
 
-
 import stripe
 
 
