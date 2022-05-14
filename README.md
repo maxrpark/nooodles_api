@@ -4,7 +4,7 @@
 ![alt text](https://img.shields.io/badge/My%20first%20website-3.0.3-blue)  ![alt text](https://img.shields.io/badge/Made%20by-Max-brightgreen) ![alt text](https://img.shields.io/badge/Made%20With-Django-darkgreen)
 </div>
 
-# Noodle it! 
+# Noodle Api
 
 ## About the project
 
